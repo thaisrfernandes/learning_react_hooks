@@ -3,18 +3,19 @@ import React, { useState, useEffect } from "react";
 export default function App() {
   const [location, setLocation] = useState([]);
 
+  useEffect(() => {
+    navigator.geolocation.watchPosition(handlePositionReceived);
+  }, []);
 
-  
+  function handlePositionReceived({ coords }) {
+    const { latitude, longitude } = coords;
+    setLocation({ latitude, longitude });
+  }
+
   return (
-    <ul>
-      {repositories.map(repo => (
-        <li key={repo.id}>
-          {repo.name}
-          {repo.favorite && <span>(Favorito)</span>}
-          <button onClick={() => handleFavorite(repo.id)}>Favoritar</button>
-        </li>
-      ))}
-    </ul>
+    <>
+      Latitude: {location.latitude} <br />
+      Longitute: {location.longitude}
+    </>
   );
-
 }
