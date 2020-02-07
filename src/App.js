@@ -1,33 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 export default function App() {
-  const [repositories, setRepositories] = useState([]);
+  const [location, setLocation] = useState([]);
 
-  useEffect(async () => {
-    const response = await fetch(
-      "https://api.github.com/users/thaisrfernandes/repos"
-    );
-    const data = await response.json();
 
-    setRepositories(data);
-  }, []);
-  //só vai executar uma vez [], não depende de outros valores.
-  //pode ter vários useEffect.
-
-  useEffect(() => {
-    const filtered = repositories.filter(repo => repo.favorite);
-    document.title = `Você tem ${filtered.length} favoritos.`;
-  }, [repositories]);
-  //só vai acontecer quando a viarável repositories mudar [repositories]
-
-  function handleFavorite(id) {
-    const newRepositories = repositories.map(repo => {
-      return repo.id === id ? { ...repo, favorite: !repo.favorite } : repo;
-    });
-
-    setRepositories(newRepositories);
-  }
-
+  
   return (
     <ul>
       {repositories.map(repo => (
@@ -40,30 +17,4 @@ export default function App() {
     </ul>
   );
 
-  /*
-  const [repositories, setRepositories] = useState([[
-    { id: 1, name: "repo-1" },
-    { id: 2, name: "repo-2" },
-    { id: 3, name: "repo-3" }
-  ])];
-  
-  function handleAddRepository() {
-    setRepositories([
-      ...repositories,
-      { id: Math.random(), name: "Novo repo" }
-    ]);
-  }
-
-  return (
-    <>
-      <ul>
-        {repositories.map(repo => (
-          <li key={repo.id}>{repo.name}</li>
-        ))}
-      </ul>
-      <button onClick={handleAddRepository}>
-        Adicionar Repositório
-      </button>
-    </>
-  );*/
 }
